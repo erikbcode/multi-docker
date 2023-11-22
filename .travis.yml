@@ -13,3 +13,9 @@ after_success:
   - docker build -t erikbcode/multi-nginx ./nginx
   - docker build -t erikbcode/multi-server ./server
   - docker build -t erikbcode/multi-worker ./worker
+  # Login to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push erikbcode/multi-client
+  - docker push erikbcode/multi-nginx
+  - docker push erikbcode/multi-server
+  - docker push erikbcode/multi-worker
