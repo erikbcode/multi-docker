@@ -1,0 +1,15 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t erikbcode/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true erikbcode/react-test npm run test
+
+after_success:
+  - docker build -t erikbcode/multi-client ./client
+  - docker build -t erikbcode/multi-nginx ./nginx
+  - docker build -t erikbcode/multi-server ./server
+  - docker build -t erikbcode/multi-worker ./worker
