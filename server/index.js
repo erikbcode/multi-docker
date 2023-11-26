@@ -46,7 +46,6 @@ app.get('/', (req, res) => {
 
 app.get('/values/all', async (req, res) => {
   const values = await pgClient.query('SELECT * from values');
-  console.log(values);
   res.send(values.rows);
 });
 
@@ -58,6 +57,10 @@ app.get('/values/current', async (req, res) => {
 
 app.post('/values', async (req, res) => {
   const index = req.body.index;
+
+  if (index.length === 0) {
+    return res.status(422).send('Request is empty')
+  }
 
   if (isNaN(index)) {
     return res.status(422).send('Not a number');
